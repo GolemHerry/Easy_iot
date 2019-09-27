@@ -3,7 +3,7 @@
 @Date: 2019-09-07 15:27:41
 @LastEditors: Golem
 @Github: Golemherry
-@LastEditTime: 2019-09-17 19:27:17
+@LastEditTime: 2019-09-26 18:55:48
 '''
 #!/usr/bin/env python3
 
@@ -24,8 +24,8 @@ INFLUXDB_DATABASE = 'lab_db'
 MQTT_ADDRESS = '47.100.114.83'
 MQTT_USER = ''
 MQTT_PASSWORD = ''
-MQTT_TOPIC = 'lab/+/+'
-MQTT_REGEX = 'lab/([^/]+)/([^/]+)'
+MQTT_TOPIC = 'dorm/+/+'
+MQTT_REGEX = 'dorm/([^/]+)/([^/]+)'
 MQTT_CLIENT_ID = 'MQTTInfluxDBBridge'
 
 influxdb_client = InfluxDBClient(
