@@ -44,7 +44,6 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message(client, userdata, msg):
-    """The callback for when a PUBLISH message is received from the server."""
     print(msg.topic + ' ' + str(msg.payload))
     sensor_data = _parse_mqtt_message(msg.topic, msg.payload.decode('utf-8'))
     if sensor_data is not None:

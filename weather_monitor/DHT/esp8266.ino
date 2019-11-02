@@ -25,8 +25,8 @@
 #define MQTT_PUBLISH_DELAY 3000
 #define MQTT_CLIENT_ID "esp8266dht22"
 
-const char *WIFI_SSID = "204-2.4G";
-const char *WIFI_PASSWORD = "6a204204";
+const char *WIFI_SSID = "iPhone";
+const char *WIFI_PASSWORD = "123467890";
 
 const char *MQTT_SERVER = "47.100.114.83";
 const char *MQTT_USER = "";     // NULL for no authentication
