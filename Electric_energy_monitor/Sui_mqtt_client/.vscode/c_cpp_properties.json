@@ -5,18 +5,17 @@
             "includePath": [
                 "/Users/wangchen/Library/Arduino15/packages/esp8266/tools/**",
                 "/Users/wangchen/Library/Arduino15/packages/esp8266/hardware/esp8266/2.5.2/**",
-                "/Users/wangchen/Documents/Arduino/libraries/**",
-                "${workspaceFolder}/** "
+                "/Users/wangchen/Documents/Arduino/libraries/**"
             ],
-            "defines": [],
+            "forcedInclude": [],
             "macFrameworkPath": [
-                "/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks"
+                "/System/Library/Frameworks",
+                "/Library/Frameworks"
             ],
+            "intelliSenseMode": "clang-x64",
             "compilerPath": "/usr/bin/clang",
             "cStandard": "c11",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "clang-x64",
-            "forcedInclude": []
+            "cppStandard": "c++17"
         }
     ],
     "version": 4

@@ -21,14 +21,15 @@
 
 #define MQTT_TOPIC_HUMIDITY "lab/bme280/humidity"
 #define MQTT_TOPIC_TEMPERATURE "lab/bme280/temperature"
+#define MQTT_TOPIC_ALTITUDE "lab/bme280/altitude"
 #define MQTT_TOPIC_STATE "lab/bme280/status"
 #define MQTT_PUBLISH_DELAY 3000
 #define MQTT_CLIENT_ID "esp8266bme280"
 
 #define BME280_ADDRESS 0x76
 
-const char *WIFI_SSID = "204-2.4G";
-const char *WIFI_PASSWORD = "6a204204";
+const char *WIFI_SSID = "Golem";
+const char *WIFI_PASSWORD = "12345678!";
 
 const char *MQTT_SERVER = "47.100.114.83";
 const char *MQTT_USER = "";     // NULL for no authentication
@@ -36,6 +37,7 @@ const char *MQTT_PASSWORD = ""; // NULL for no authentication
 
 float humidity;
 float temperature;
+float altitude;
 long lastMsgTime = 0;
 
 Adafruit_BME280 bme;
@@ -59,9 +61,9 @@ void setup()
   // Use force mode so that the sensor returns to sleep mode when the measurement is finished
   bme.setSampling(Adafruit_BME280::MODE_FORCED,
                   Adafruit_BME280::SAMPLING_X1,   // temperature
-                  Adafruit_BME280::SAMPLING_NONE, // pressure
+                  Adafruit_BME280::SAMPLING_X1, // pressure
                   Adafruit_BME280::SAMPLING_X1,   // humidity
-                  Adafruit_BME280::FILTER_OFF);
+                  Adafruit_BME280::FILTER_X2);
 
   setupWifi();
   mqttClient.setServer(MQTT_SERVER, 1883);
@@ -84,6 +86,8 @@ void loop()
     bme.takeForcedMeasurement(); // has no effect in normal mode
     humidity = bme.readHumidity();
     temperature = bme.readTemperature();
+    altitude = bme.readAltitude(1013.25);
+    
     if (isnan(humidity) || isnan(temperature))
     {
       Serial.println("BME280 reading issues");
@@ -93,6 +97,7 @@ void loop()
     // Publishing sensor data
     mqttPublish(MQTT_TOPIC_TEMPERATURE, temperature);
     mqttPublish(MQTT_TOPIC_HUMIDITY, humidity);
+    mqttPublish(MQTT_TOPIC_ALTITUDE, altitude);
   }
 }
 

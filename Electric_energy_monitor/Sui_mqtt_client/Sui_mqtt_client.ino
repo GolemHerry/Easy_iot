@@ -18,8 +18,8 @@
 #define MQTT_TOPIC_STATE "tz/sui101a/status"
 #define MQTT_CLIENT_ID "PowerMonitorStation"
 
-const char *WIFI_SSID = "204-2.4G";
-const char *WIFI_PASSWORD = "6a204204";
+const char *WIFI_SSID = "Golem";
+const char *WIFI_PASSWORD = "12345678!";
 const char *MQTT_SERVER = "47.100.114.83";
 const char *MQTT_USER = "";     // NULL for no authentication
 const char *MQTT_PASSWORD = ""; // NULL for no authentication
@@ -144,7 +144,7 @@ u8 SUI_101A_Get(u8 adder)
   {
     t--;
     rxlen = RxCnt;
-    delay(10); //等待5ms,连续超过5ms没有接收到一个数据,则认为接收结束
+    delay(10); //等待10ms,连续超过5ms没有接收到一个数据,则认为接收结束
     if ((rxlen == RxCnt) && (rxlen != 0))
     { //接收到了数据,且接收完成了
       if (rxlen == (RxBuf[5] + 7))
