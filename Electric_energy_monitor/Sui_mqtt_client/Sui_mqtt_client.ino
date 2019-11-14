@@ -18,8 +18,8 @@
 #define MQTT_TOPIC_STATE "tz/sui101a/status"
 #define MQTT_TOPIC_SWITCH "tz/sui101a/switch"
 #define MQTT_CLIENT_ID "PowerMonitorStation"
-#define ON (u8)1
-#define OFF (u8)0
+#define ON 1
+#define OFF 0
 
 const char *WIFI_SSID = "Golem";
 const char *WIFI_PASSWORD = "12345678!";
