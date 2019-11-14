@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  mqtt:
+    image: emqx/emqx
+    container_name: mqtt
+    ports:
+      - 1883:1883
+    restart: always
+
+  influxdb:
+    image: influxdb
+    container_name: influxdb
+    ports:
+      - 8086:8086
+    restart: always
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    depends_on:
+      - influxdb
+    ports:
+      - 3000:3000
+    restart: always
+
+  mqtt_broker:
+    image: mqtt_broker
+    container_name: mqtt_broker
+    depends_on:
+      - mqtt
+      - influxdb
+    restart: always
+
+  mqtt_debug:
+    image: mqtt_debug
+    container_name: mqtt_debug
+    restart: always
