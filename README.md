@@ -18,13 +18,21 @@
 
 ### Server
 
-> git clone https://github.com/GolemHerry/Easy_iot
-> cd Easy_iot
-> docker-compose up -d
+``` shell
+git clone https://github.com/GolemHerry/Easy_iot
+cd Easy_iot/broker
+vim conf.ini
+# set up InfluxDB and MQTT infomation
+docker build -t mqtt_broker .
+cd .. && docker-compose up -d
+```
 
 ### Node
 
 > Download required libraries in Arduino IDE
+>
+> Set up wifi and MQTT server
+>
 > Upload program to ESP8266
 
 ## Screenshot
