@@ -9,21 +9,21 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
-#define MQTT_TOPIC_IRMS "tz/sui101a/Irms"
-#define MQTT_TOPIC_VRMS "tz/sui101a/Vrms"
-#define MQTT_TOPIC_FREQUENCY "tz/sui101a/Frequency"
-#define MQTT_TOPIC_POWERFACTOR "tz/sui101a/PowerFactor"
-#define MQTT_TOPIC_PACTIVE "tz/sui101a/PActive"
-#define MQTT_TOPIC_W_KWH "tz/sui101a/W_KWH"
-#define MQTT_TOPIC_STATE "tz/sui101a/status"
-#define MQTT_TOPIC_SWITCH "tz/sui101a/switch"
+#define MQTT_TOPIC_IRMS "topic/sui101a/Irms"
+#define MQTT_TOPIC_VRMS "topic/sui101a/Vrms"
+#define MQTT_TOPIC_FREQUENCY "topic/sui101a/Frequency"
+#define MQTT_TOPIC_POWERFACTOR "topic/sui101a/PowerFactor"
+#define MQTT_TOPIC_PACTIVE "topic/sui101a/PActive"
+#define MQTT_TOPIC_W_KWH "topic/sui101a/W_KWH"
+#define MQTT_TOPIC_STATE "topic/sui101a/status"
+#define MQTT_TOPIC_SWITCH "topic/sui101a/switch"
 #define MQTT_CLIENT_ID "PowerMonitorStation"
 #define ON 1
 #define OFF 0
 
-const char *WIFI_SSID = "Golem";
-const char *WIFI_PASSWORD = "12345678!";
-const char *MQTT_SERVER = "47.100.114.83";
+const char *WIFI_SSID = "wifissid";
+const char *WIFI_PASSWORD = "wifipassword";
+const char *MQTT_SERVER = "hostname";
 const char *MQTT_USER = "";     // NULL for no authentication
 const char *MQTT_PASSWORD = ""; // NULL for no authentication
 
@@ -35,14 +35,14 @@ PubSubClient mqttClient(espClient);
 #define DELAY_MS 1000
 
 u8 on_off = ON;
-u8 RxBuf[1024] = {0};  //串口接收缓存
-u32 RxCnt = 0;         //接收计数
-float Irms = 0;        //电流有效值
-float Vrms = 0;        //电压有效值
-float Frequency = 0;   //频率
-float PowerFactor = 1; //功率因数
-float PActive = 0;     //有功功率
-double W_KWH = 0;      //累积功耗
+u8 RxBuf[1024] = {0};
+u32 RxCnt = 0;
+float Irms = 0;
+float Vrms = 0;
+float Frequency = 0;
+float PowerFactor = 1;
+float PActive = 0;
+double W_KWH = 0;
 
 long lastMsgTime = 0;
 String rx_msg = "";
@@ -124,13 +124,9 @@ void mqttReconnect()
     while (!mqttClient.connected())
     {
         Serial.print("Attempting MQTT connection...");
-
-        // Attempt to connect
         if (mqttClient.connect(MQTT_CLIENT_ID, MQTT_USER, MQTT_PASSWORD, MQTT_TOPIC_STATE, 1, true, "disconnected", false))
         {
             Serial.println("connected");
-
-            // Once connected, publish an announcement...
             mqttClient.publish(MQTT_TOPIC_STATE, "connected", true);
         }
         else
@@ -169,25 +165,24 @@ u8 SUI_101A_Get(u8 adder)
     {
         t--;
         rxlen = RxCnt;
-        delay(10); //等待5ms,连续超过5ms没有接收到一个数据,则认为接收结束
+        delay(10);
         if ((rxlen == RxCnt) && (rxlen != 0))
-        { //接收到了数据,且接收完成了
+        {
             if (rxlen == (RxBuf[5] + 7))
             {
-                //数据长度正确
             }
             else
             {
-                return 3; //异常,数据长度错误
+                return 3;
             }
             sum = 0;
-            rxlen -= 1; //除去校验位的长度
+            rxlen -= 1;
             for (i = 0; i < rxlen; i++)
             {
                 sum += RxBuf[i];
             }
             if (sum == RxBuf[rxlen])
-            { //校验和正确
+            {
                 Vrms = (double)(((u32)RxBuf[6] << 24) | ((u32)RxBuf[7] << 16) | ((u32)RxBuf[8] << 8) | ((u32)RxBuf[9] << 0)) / 1000.0;
                 Irms = (double)(((u32)RxBuf[10] << 24) | ((u32)RxBuf[11] << 16) | ((u32)RxBuf[12] << 8) | ((u32)RxBuf[13] << 0)) / 1000.0;
                 PActive = (double)(((u32)RxBuf[14] << 24) | ((u32)RxBuf[15] << 16) | ((u32)RxBuf[16] << 8) | ((u32)RxBuf[17] << 0)) / 1000.0;
@@ -197,7 +192,7 @@ u8 SUI_101A_Get(u8 adder)
                 W_KWH = (double)(((u32)RxBuf[n++] << 24) | ((u32)RxBuf[n++] << 16) | ((u32)RxBuf[n++] << 8) | ((u32)RxBuf[n++] << 0)) / 10000.0;
             }
             else
-            { //数据校验错误
+            {
                 return 1;
             }
             break;
@@ -205,7 +200,7 @@ u8 SUI_101A_Get(u8 adder)
     }
     if (t == 0)
     {
-        return 2; //超时
+        return 2;
     }
     // Serial.printf(" | V:%10.05f | I:%10.05f | P:%10.05f | PF:%10.05f | F:%10.05f | W:%10.05f |\r\n", Vrms, Irms, PActive, PowerFactor, Frequency, W_KWH);
     return 0;

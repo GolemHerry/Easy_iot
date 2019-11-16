@@ -5,12 +5,6 @@
    @Github: Golemherry
  * @LastEditTime: 2019-09-16 20:33:34
 */
-/**
-    Required libraries:
-      - Adafruit BME280 Library
-      - Adafruit Unified Sensor
-      - PubSubClient
-**/
 // SCL--> D1   SDA --> D2
 #include <Wire.h>
 #include <SPI.h>
@@ -19,19 +13,19 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
-#define MQTT_TOPIC_HUMIDITY "lab/bme280/humidity"
-#define MQTT_TOPIC_TEMPERATURE "lab/bme280/temperature"
-#define MQTT_TOPIC_ALTITUDE "lab/bme280/altitude"
-#define MQTT_TOPIC_STATE "lab/bme280/status"
+#define MQTT_TOPIC_HUMIDITY "topic/bme280/humidity"
+#define MQTT_TOPIC_TEMPERATURE "topic/bme280/temperature"
+#define MQTT_TOPIC_ALTITUDE "topic/bme280/altitude"
+#define MQTT_TOPIC_STATE "topic/bme280/status"
 #define MQTT_PUBLISH_DELAY 3000
 #define MQTT_CLIENT_ID "esp8266bme280"
 
 #define BME280_ADDRESS 0x76
 
-const char *WIFI_SSID = "Golem";
-const char *WIFI_PASSWORD = "12345678!";
+const char *WIFI_SSID = "wifissid";
+const char *WIFI_PASSWORD = "wifipassword";
 
-const char *MQTT_SERVER = "47.100.114.83";
+const char *MQTT_SERVER = "hostname";
 const char *MQTT_USER = "";     // NULL for no authentication
 const char *MQTT_PASSWORD = ""; // NULL for no authentication
 
@@ -60,9 +54,9 @@ void setup()
 
   // Use force mode so that the sensor returns to sleep mode when the measurement is finished
   bme.setSampling(Adafruit_BME280::MODE_FORCED,
-                  Adafruit_BME280::SAMPLING_X1,   // temperature
+                  Adafruit_BME280::SAMPLING_X1, // temperature
                   Adafruit_BME280::SAMPLING_X1, // pressure
-                  Adafruit_BME280::SAMPLING_X1,   // humidity
+                  Adafruit_BME280::SAMPLING_X1, // humidity
                   Adafruit_BME280::FILTER_X2);
 
   setupWifi();
@@ -87,7 +81,7 @@ void loop()
     humidity = bme.readHumidity();
     temperature = bme.readTemperature();
     altitude = bme.readAltitude(1013.25);
-    
+
     if (isnan(humidity) || isnan(temperature))
     {
       Serial.println("BME280 reading issues");

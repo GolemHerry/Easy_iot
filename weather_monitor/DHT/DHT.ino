@@ -19,16 +19,16 @@
 #define DHTPIN D4
 #define DHTTYPE DHT22
 
-#define MQTT_TOPIC_HUMIDITY "dorm/dht22/Humidity_2"
-#define MQTT_TOPIC_TEMPERATURE "dorm/dht22/Temperature_2"
-#define MQTT_TOPIC_STATE "dorm/dht22/status"
+#define MQTT_TOPIC_HUMIDITY "topic/dht22/Humidity_2"
+#define MQTT_TOPIC_TEMPERATURE "topic/dht22/Temperature_2"
+#define MQTT_TOPIC_STATE "topic/dht22/status"
 #define MQTT_PUBLISH_DELAY 3000
-#define MQTT_CLIENT_ID "esp8266dht22"
+#define MQTT_CLIENT_ID "esp8266dht"
 
-const char *WIFI_SSID = "iPhone";
-const char *WIFI_PASSWORD = "123467890";
+const char *WIFI_SSID = "wifissid";
+const char *WIFI_PASSWORD = "wifipassword";
 
-const char *MQTT_SERVER = "47.100.114.83";
+const char *MQTT_SERVER = "hostname";
 const char *MQTT_USER = "";     // NULL for no authentication
 const char *MQTT_PASSWORD = ""; // NULL for no authentication
 
