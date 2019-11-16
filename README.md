@@ -13,6 +13,12 @@
 
 - All applications have been containerization by using Docker
 - Easy to deploy and realize
+## Demo
+[<image src="assets/link.jpeg" width="5%">](http://47.100.114.83)
+
+> Username: **demo**
+> 
+> Password: **publicdemo**
 
 ## Quick Start
 
@@ -39,13 +45,13 @@ cd .. && docker-compose up -d
 
 <details>
 <summary>Weather monitor</summary>
-<pre><image src="screenshot/dorm.png" width="100%"></pre>
+<pre><image src="assets/dorm.png" width="100%"></pre>
 </details>
 <details>
 <summary>Power monitor</summary>
-<pre><image src="screenshot/poweMonitor.png" width="100%"></pre>
+<pre><image src="assets/poweMonitor.png" width="100%"></pre>
 </details> 
 <details>
 <summary>Container monitor</summary>
-<pre><image src="screenshot/containers.png" width="100%"></pre>
+<pre><image src="assets/containers.png" width="100%"></pre>
 </details>
